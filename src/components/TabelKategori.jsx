@@ -105,5 +105,5 @@ export default function TabelKategori({ data, onDelete }) {
 
 TabelKategori.propTypes = {
   data: PropTypes.array.isRequired,
-  onDelete: PropTypes.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };

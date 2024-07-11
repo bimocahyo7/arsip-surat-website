@@ -1,5 +1,6 @@
 import Sidebar from "./Sidebar";
 import PropTypes from "prop-types";
+import { Toaster } from "react-hot-toast";
 
 function Layout({ children }) {
   return (
@@ -8,6 +9,7 @@ function Layout({ children }) {
         <Sidebar />
         <main className="flex-1 overflow-auto">{children}</main>
       </div>
+      <Toaster />
     </div>
   );
 }
