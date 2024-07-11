@@ -4,8 +4,5 @@ export default {
   theme: {
     extend: {},
   },
-  colors: {
-    green: "rgb(12,159,100)",
-  },
   plugins: [],
 };
