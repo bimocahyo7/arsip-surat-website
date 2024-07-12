@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function TabelKategori({ data, onDelete }) {
   const [deleteItemId, setDeleteItemId] = useState(null);
@@ -64,9 +65,11 @@ export default function TabelKategori({ data, onDelete }) {
               </TableCell>
               <TableCell align="center" sx={{ border: 1 }}>
                 <Stack direction="row" spacing={1} justifyContent="center">
-                  <Button variant="contained" color="secondary" size="small" startIcon={<EditIcon />}>
-                    Edit
-                  </Button>
+                  <Link to={`/kategori/edit/${item.id}`}>
+                    <Button variant="contained" color="secondary" size="small" startIcon={<EditIcon />}>
+                      Edit
+                    </Button>
+                  </Link>
                   <Button
                     variant="contained"
                     color="error"

@@ -6,6 +6,7 @@ import ArsipPage from "./pages/ArsipPage";
 import AboutPage from "./pages/AboutPage";
 import Layout from "./components/Layout";
 import AddKategoriPage from "./pages/AddKategoriPage";
+import EditKategoriPage from "./pages/EditKategoriPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route exact path="/" element={<HomePage />} />
           <Route exact path="/arsip" element={<ArsipPage />} />
           <Route exact path="/kategori" element={<KategoriPage />} />
+          <Route exact path="/kategori/edit/:id" element={<EditKategoriPage />} />
           <Route exact path="/kategori/tambah-kategori" element={<AddKategoriPage />} />
           <Route exact path="/about" element={<AboutPage />} />
         </Routes>

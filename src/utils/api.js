@@ -13,6 +13,26 @@ async function getKategori() {
   }
 }
 
+async function getKategoriById(id) {
+  try {
+    const response = await axios.get(`${BASE_URL}/kategori/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log("Error get data kategori by id:", error);
+    throw error;
+  }
+}
+
+async function updateKategori(id, data) {
+  try {
+    const response = await axios.put(`${BASE_URL}/kategori/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.log("Error edit data", error);
+    throw error;
+  }
+}
+
 async function deleteKategori(id) {
   try {
     const response = await axios.delete(`${BASE_URL}/kategori/${id}`);
@@ -25,7 +45,7 @@ async function deleteKategori(id) {
 
 async function addKategori({ namaKategori, keterangan }) {
   try {
-    const response = await axios.post(`${BASE_URL}/kategori/`, {
+    const response = await axios.post(`${BASE_URL}/kategori`, {
       namaKategori,
       keterangan,
     });
@@ -37,4 +57,4 @@ async function addKategori({ namaKategori, keterangan }) {
   }
 }
 
-export { getKategori, deleteKategori, addKategori };
+export { getKategori, deleteKategori, addKategori, getKategoriById, updateKategori };
