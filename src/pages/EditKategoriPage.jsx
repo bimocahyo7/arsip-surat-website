@@ -55,12 +55,14 @@ function EditKategoriPage() {
         <p className="items-center text-center text-sm">Berikut ini adalah halaman untuk mengedit kategori surat.</p>
 
         <form onSubmit={handleUpdate} className="mt-5 mx-7">
+          <TextField label="ID" value={id} disabled fullWidth margin="normal" size="small" />
           <TextField
             label="Nama Kategori"
             value={namaKategori}
             onChange={(e) => setNamaKategori(e.target.value)}
             fullWidth
             margin="normal"
+            required
           />
           <TextField
             label="Keterangan"
@@ -68,9 +70,10 @@ function EditKategoriPage() {
             onChange={(e) => setKeterangan(e.target.value)}
             fullWidth
             margin="normal"
+            required
           />
 
-          <Typography align="center" mt={3}>
+          <Typography align="center" mt={2}>
             <Button type="submit" variant="contained" color="primary" fullWidth>
               Update
             </Button>
@@ -78,7 +81,7 @@ function EditKategoriPage() {
         </form>
 
         {/* Navigasi kembali */}
-        <div className="mt-20 ml-7">
+        <div className="mt-14 ml-7">
           <Link to={"/kategori"}>
             <Button variant="contained" color="success" size="small" startIcon={<ArrowBackIcon />}>
               Kembali

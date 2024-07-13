@@ -48,7 +48,7 @@ function KategoriPage() {
   return (
     <div className="bg-slate-200 min-h-full flex">
       <div className="container bg-white p-5 mx-5 my-5 rounded-lg shadow-md">
-        <h1 className="text-2xl text-center mb-2 font-semibold">Kategori Surat</h1>
+        <h1 className="text-2xl text-center mb-2 font-semibold">Kategori Arsip</h1>
         <p className="items-center text-center text-sm">
           Berikut ini adalah kategori yang bisa digunakan untuk melabeli surat.
           <div className="block">Klik "Tambah" pada kolom aksi untuk menambahkan kategori baru</div>

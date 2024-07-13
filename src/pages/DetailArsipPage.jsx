@@ -1,0 +1,107 @@
+import { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { Button, CircularProgress, Typography } from "@mui/material";
+import { downloadSurat, getSuratById } from "../utils/api";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
+function DetailArsipPage() {
+  const { id } = useParams(); // Ambil ID dari parameter URL menggunakan useParams
+  const [surat, setSurat] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchSurat = async () => {
+      try {
+        const response = await getSuratById(id); // Panggil API untuk mendapatkan surat berdasarkan ID
+        setSurat(response);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSurat();
+  }, [id]);
+
+  const handleDownload = async () => {
+    try {
+      // Panggil fungsi downloadSurat untuk mengunduh file surat
+      const downloadResponse = await downloadSurat(id);
+      if (downloadResponse.error) {
+        console.error("Error downloading surat:", downloadResponse);
+      }
+    } catch (error) {
+      console.error("Error downloading surat:", error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="bg-slate-200 min-h-full flex">
+        <div className="container bg-white p-5 mx-5 my-5 rounded-lg shadow-md">
+          <div className="loading-container">
+            <CircularProgress />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-slate-200 min-h-full flex">
+        <div className="container bg-white p-5 mx-5 my-5 rounded-lg shadow-md">
+          <div className="error-container">
+            <Typography variant="h5" color="error">
+              Error: {error.message}
+            </Typography>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-slate-200 min-h-full flex">
+      <div className="container bg-white p-5 mx-5 my-5 rounded-lg shadow-md">
+        <div>
+          <h1 className="text-2xl text-center mb-2 font-semibold">Detail Arsip Surat</h1>
+          <Typography className="items-center text-center text-sm">
+            Berikut ini adalah halaman detail dari surat yang ada.
+          </Typography>
+        </div>
+        <Typography variant="body1" gutterBottom>
+          ID Surat: {id}
+        </Typography>
+        {surat && (
+          <div>
+            <Typography variant="body1" gutterBottom>
+              Nomor Surat: {surat.nomorSurat}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              Kategori: {surat.kategori}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              Judul: {surat.judul}
+            </Typography>
+            <Button variant="contained" onClick={handleDownload}>
+              Download Surat
+            </Button>
+          </div>
+        )}
+
+        <div className="mt-20 ml-7">
+          <Link to={"/arsip"}>
+            <Button variant="contained" color="success" size="small" startIcon={<ArrowBackIcon />}>
+              Kembali
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default DetailArsipPage;

@@ -34,7 +34,7 @@ function AddKategoriPage() {
   return (
     <div className="bg-slate-200 min-h-full flex">
       <div className="container bg-white p-5 mx-5 my-5 rounded-lg shadow-md">
-        <h1 className="text-2xl text-center mb-2 font-semibold">Tambah Kategori Surat</h1>
+        <h1 className="text-2xl text-center mb-2 font-semibold">Tambah Kategori Arsip</h1>
         <p className="items-center text-center text-sm">Berikut ini adalah halaman untuk menambahkan kategori baru.</p>
 
         <form onSubmit={handleSubmit} className="mt-5 mx-7">

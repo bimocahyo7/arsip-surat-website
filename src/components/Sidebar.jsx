@@ -12,7 +12,7 @@ function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 h-full bg-zinc-400">
+    <aside className="w-60 h-full bg-zinc-400">
       <div className="flex items-center gap-2 px-5 py-5 bg-slate-800">
         <SiMailtrap size={33} color="white" />
         <h1 className="font-bold text-xl text-white">Web Arsip Surat</h1>
