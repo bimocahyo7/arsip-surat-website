@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import HomePage from "./pages/HomePage";
 import KategoriPage from "./pages/KategoriPage";
@@ -9,17 +9,20 @@ import AddKategoriPage from "./pages/AddKategoriPage";
 import EditKategoriPage from "./pages/EditKategoriPage";
 import AddArsipPage from "./pages/AddArsipPage";
 import DetailArsipPage from "./pages/DetailArsipPage";
+import EditArsipPage from "./pages/EditArsipPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Layout>
         <Routes>
-          <Route exact path="/" element={<HomePage />} />
+          {/* <Route exact path="/" element={<HomePage />} /> */}
+          <Route path="/" element={<Navigate to="/arsip" />} />
 
           {/* ARSIP */}
           <Route exact path="/arsip" element={<ArsipPage />} />
           <Route exact path="arsip/tambah-arsip" element={<AddArsipPage />} />
+          <Route exact path="arsip/edit-arsip/:id" element={<EditArsipPage />} />
           <Route exact path="arsip/detail/:id" element={<DetailArsipPage />} />
 
           {/* KATEGORI */}

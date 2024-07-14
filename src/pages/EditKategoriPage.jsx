@@ -80,7 +80,7 @@ function EditKategoriPage() {
           </form>
 
           {/* Navigasi kembali */}
-          <div className="mt-14 ml-7">
+          <div className="mt-16 ml-7">
             <Link to={"/kategori"}>
               <Button variant="contained" color="success" size="small" startIcon={<ArrowBackIcon />}>
                 Kembali

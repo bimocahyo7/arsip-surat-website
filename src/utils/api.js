@@ -117,28 +117,37 @@ async function downloadSurat(id) {
       url: `${BASE_URL}/surat/download/${id}`,
       responseType: "blob",
     });
-
-    return { error: false, code: response.status, data: response.data };
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `surat_${id}.pdf`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    return { error: false };
   } catch (error) {
     console.error("Error downloading surat:", error);
-    return { error: true, code: error.response?.status || 500 };
+    return { error: true, message: error.message };
   }
 }
 
-async function updateFileSurat(id, { fileDokumen }) {
+async function updateSurat(id, { nomorSurat, kategori, judul, fileDokumen }) {
   try {
     const formData = new FormData();
+    formData.append("nomorSurat", nomorSurat);
+    formData.append("kategori", kategori);
+    formData.append("judul", judul);
     if (fileDokumen) {
       formData.append("fileDokumen", fileDokumen);
     }
 
-    const response = await axios.put(`${BASE_URL}/surat/update-file/${id}`, formData, {
+    const response = await axios.put(`${BASE_URL}/surat/${id}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
 
-    return { error: false, code: response.status };
+    return { error: false, code: response.status, data: response.data };
   } catch (error) {
     console.error("Error updating surat:", error);
     return { error: true, code: error.response?.status || 500 };
@@ -156,5 +165,5 @@ export {
   addSurat,
   deleteSurat,
   downloadSurat,
-  updateFileSurat,
+  updateSurat,
 };

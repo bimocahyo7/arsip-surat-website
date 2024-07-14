@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import TabelSurat from "../components/TabelSurat.jsx";
 import { Link } from "react-router-dom";
@@ -60,26 +60,38 @@ function ArsipPage() {
   return (
     <LoadingErrorWrapper loading={loading} error={error}>
       <div className="bg-slate-200 min-h-full flex">
-        <div className="container bg-white p-5 mx-5 my-5 rounded-lg shadow-md">
-          <h1 className="text-2xl text-center mb-2 font-semibold">Daftar Arsip Surat</h1>
-          <p className="text-center text-sm">Berikut ini adalah daftar surat yang tersedia.</p>
-          <p className="text-center text-sm">Klik "Tambah" untuk menambahkan surat baru.</p>
+        <div className="container bg-white p-9 mx-5 my-5 rounded-lg shadow-md">
+          <div className="pb-4 border-b border-gray-200">
+            <h1 className="text-2xl font-semibold pb-3">Daftar Arsip Surat</h1>
+            <p className="text-sm">Berikut ini adalah daftar surat yang tersedia.</p>
+            <p className="text-sm">Klik "Tambah" untuk menambahkan surat baru.</p>
+          </div>
 
           {/* Search */}
-          <div className="flex items-center mt-5 gap-6 justify-center">
-            <label>Cari surat:</label>
-            <TextField
-              placeholder="Ketikan judul surat"
-              id="outlined-basic"
-              size="small"
-              variant="outlined"
-              className="w-96"
-              value={searchTitle}
-              onChange={handleInputChange}
-            />
-            <Button variant="contained" onClick={handleSearch}>
-              Cari
-            </Button>
+          <div className="flex items-center mt-5 gap-6 justify-between">
+            <div>
+              {/* Navigasi ke halaman Tambah Surat */}
+              <Link to={"/arsip/tambah-arsip"}>
+                <Button variant="contained" color="success" size="small" startIcon={<AddBoxIcon />}>
+                  Tambah arsip baru
+                </Button>
+              </Link>
+            </div>
+            <div className="flex gap-3 justify-center items-center">
+              <Typography>Cari surat:</Typography>
+              <TextField
+                placeholder="Ketikan judul surat"
+                id="outlined-basic"
+                size="small"
+                variant="outlined"
+                className="w-96"
+                value={searchTitle}
+                onChange={handleInputChange}
+              />
+              <Button variant="contained" onClick={handleSearch}>
+                Cari
+              </Button>
+            </div>
           </div>
 
           <div className="mt-5">
@@ -93,16 +105,6 @@ function ArsipPage() {
                 </h1>
               </div>
             )}
-          </div>
-
-          {/* Button Tambah Surat */}
-          <div className="mt-5">
-            {/* Navigasi ke halaman Tambah Surat */}
-            <Link to={"/arsip/tambah-arsip"}>
-              <Button variant="contained" color="success" size="small" startIcon={<AddBoxIcon />}>
-                Tambah arsip baru
-              </Button>
-            </Link>
           </div>
         </div>
       </div>

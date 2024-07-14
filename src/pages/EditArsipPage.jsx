@@ -1,11 +1,14 @@
 import { Button, TextField, Typography, MenuItem, Select, FormControl } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { addSurat, getKategori } from "../utils/api";
+import { getSuratById, updateSurat, getKategori } from "../utils/api";
 import toast from "react-hot-toast";
 
-function AddArsipPage() {
+function EditArsipPage() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const [kategoriList, setKategoriList] = useState([]);
   const [surat, setSurat] = useState({
     nomorSurat: "",
@@ -13,23 +16,42 @@ function AddArsipPage() {
     judul: "",
     fileDokumen: null,
   });
+  const [namaFile, setNamaFile] = useState(""); // State untuk menyimpan nama file yang dipilih
 
   useEffect(() => {
-    const fetchKategori = async () => {
-      const response = await getKategori();
-      if (!response.error) {
-        setKategoriList(response.data); // Update state dengan data kategori
-      } else {
-        console.error("Error fetching kategori:", response.code);
+    const fetchSuratAndKategori = async () => {
+      try {
+        const responseSurat = await getSuratById(id);
+        setSurat({
+          nomorSurat: responseSurat.nomorSurat,
+          kategori: responseSurat.kategori,
+          judul: responseSurat.judul,
+          fileDokumen: responseSurat.fileDokumen, // Set fileDokumen dari data surat
+        });
+
+        // Set nama file jika fileDokumen sudah ada
+        if (responseSurat.fileDokumen) {
+          setNamaFile(responseSurat.fileDokumen.name);
+        } else {
+          setNamaFile("Tidak ada file dipilih"); // Pesan jika tidak ada file
+        }
+
+        const responseKategori = await getKategori();
+        if (!responseKategori.error) {
+          setKategoriList(responseKategori.data);
+        } else {
+          console.error("Error fetching kategori:", responseKategori.code);
+        }
+      } catch (error) {
+        console.error("Error fetching surat or kategori:", error);
       }
     };
 
-    fetchKategori();
-  }, []);
+    fetchSuratAndKategori();
+  }, [id]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    // Validasi inputan upload dokumen harus format PDF
     const allowedExtensions = /(\.pdf)$/i;
 
     if (!allowedExtensions.exec(file.name)) {
@@ -39,38 +61,30 @@ function AddArsipPage() {
     }
 
     setSurat({ ...surat, fileDokumen: file });
+    setNamaFile(file.name); // Set nama file untuk ditampilkan
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await addSurat(surat);
-      console.log(`Form submitted! ${response}`);
-
+      const response = await updateSurat(id, surat);
       if (!response.error) {
-        toast.success("Berhasil menambahkan arsip!", { duration: 4000 });
-        setSurat({
-          nomorSurat: "",
-          kategori: "",
-          judul: "",
-          fileDokumen: null,
-        });
+        toast.success("Berhasil mengupdate arsip!", { duration: 4000 });
+        navigate("/arsip");
       } else {
-        toast.error("Error menambahkan arsip!");
-        console.log(`Error: ${response.error}`);
+        toast.error("Error mengupdate arsip!");
       }
     } catch (error) {
-      console.error(`Error submitting form: ${error}`);
+      console.error("Error updating surat:", error);
+      toast.error("Error mengupdate arsip!");
     }
   };
 
   return (
     <div className="bg-slate-200 min-h-full flex">
       <div className="container bg-white p-3 mx-5 my-5 rounded-lg shadow-md">
-        <h1 className="text-2xl text-center mb-2 font-semibold">Tambah Arsip Surat</h1>
-        <p className="items-center text-center text-sm">
-          Berikut ini adalah halaman untuk menambahkan arsip surat baru.
-        </p>
+        <h1 className="text-2xl text-center mb-2 font-semibold">Edit Arsip Surat</h1>
+        <p className="items-center text-center text-sm">Berikut ini adalah halaman untuk mengedit arsip surat.</p>
 
         <form onSubmit={handleSubmit} className="mt-5 mx-7">
           <div className="mb-3">
@@ -102,7 +116,6 @@ function AddArsipPage() {
                   const value = event.target.value;
                   setSurat({ ...surat, kategori: value });
                 }}>
-                {/* Mapping data namakategori dari tabel Kategori */}
                 {kategoriList.map((kategori) => (
                   <MenuItem key={kategori.id} value={kategori.namaKategori}>
                     {kategori.namaKategori}
@@ -128,15 +141,29 @@ function AddArsipPage() {
               }}
             />
           </div>
-          <div className="">
+          <div className="mb-3">
             <Typography variant="body1" mb={1}>
               File Dokumen (*PDF):
             </Typography>
-            <TextField id="fileDokumen" type="file" required onChange={handleFileChange} />
+            <input
+              id="fileDokumen"
+              type="file"
+              accept=".pdf"
+              onChange={handleFileChange}
+              style={{ display: "none" }} // Sembunyikan input file yang sebenarnya
+            />
+            <div>
+              <label htmlFor="fileDokumen">
+                <Button component="span" variant="outlined">
+                  Pilih File
+                </Button>
+              </label>
+              <span className="ml-2">{namaFile}</span> {/* Tampilkan nama file yang dipilih */}
+            </div>
           </div>
           <Typography align="center" mt={3}>
             <Button type="submit" variant="contained" size="large">
-              Submit
+              Update
             </Button>
           </Typography>
         </form>
@@ -153,4 +180,4 @@ function AddArsipPage() {
   );
 }
 
-export default AddArsipPage;
+export default EditArsipPage;

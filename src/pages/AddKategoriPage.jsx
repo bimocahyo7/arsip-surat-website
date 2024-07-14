@@ -34,8 +34,10 @@ function AddKategoriPage() {
   return (
     <div className="bg-slate-200 min-h-full flex">
       <div className="container bg-white p-5 mx-5 my-5 rounded-lg shadow-md">
-        <h1 className="text-2xl text-center mb-2 font-semibold">Tambah Kategori Arsip</h1>
-        <p className="items-center text-center text-sm">Berikut ini adalah halaman untuk menambahkan kategori baru.</p>
+        <div className="text-center border-b">
+          <h1 className="text-2xl mb-2 font-semibold">Tambah Kategori Arsip</h1>
+          <p className="items-center text-sm mb-6">Berikut ini adalah halaman untuk menambahkan kategori baru.</p>
+        </div>
 
         <form onSubmit={handleSubmit} className="mt-5 mx-7">
           <div className="mb-3">
@@ -73,7 +75,7 @@ function AddKategoriPage() {
             />
           </div>
           <Typography align="center" mt={3}>
-            <Button type="submit" variant="contained" fullWidth>
+            <Button type="submit" variant="contained" size="large">
               Submit
             </Button>
           </Typography>

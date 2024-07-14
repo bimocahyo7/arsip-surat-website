@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { MdAccountCircle } from "react-icons/md";
 import { IoMdListBox } from "react-icons/io";
 import { IoMail } from "react-icons/io5";
-import { SiMailtrap } from "react-icons/si";
+import { LiaMailBulkSolid } from "react-icons/lia";
 
 function Sidebar() {
   const Menu = [
@@ -12,10 +12,10 @@ function Sidebar() {
   ];
 
   return (
-    <aside className="w-60 h-full bg-zinc-400">
+    <aside className="w-60 h-full bg-cyan-800">
       <div className="flex items-center gap-2 px-5 py-5 bg-slate-800">
-        <SiMailtrap size={33} color="white" />
-        <h1 className="font-bold text-xl text-white">Web Arsip Surat</h1>
+        <LiaMailBulkSolid size={60} color="white" />
+        <h1 className="font-bold text-lg text-white">Arsip Surat Kedungduren</h1>
       </div>
 
       {/* Border */}
@@ -25,9 +25,9 @@ function Sidebar() {
       <ul className="mt-3">
         {Menu.map((menu, index) => (
           <Link to={menu.path} key={index}>
-            <div className=" flex items-center pl-4 hover:bg-amber-200">
-              <span className="text-slate-800">{menu.icon}</span>
-              <li className="font-semibold py-2 pl-2 text-gray-800">{menu.title}</li>
+            <div className=" flex items-center pl-7 hover:bg-cyan-600">
+              <span className="text-white">{menu.icon}</span>
+              <li className="font-semibold py-2 pl-3 text-white">{menu.title}</li>
             </div>
           </Link>
         ))}

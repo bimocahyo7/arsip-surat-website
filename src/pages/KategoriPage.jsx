@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { deleteKategori, getKategori } from "../utils/api";
 import TabelKategori from "../components/TabelKategori";
@@ -65,28 +65,38 @@ function KategoriPage() {
   return (
     <LoadingErrorWrapper error={error} loading={loading}>
       <div className="bg-slate-200 min-h-full flex">
-        <div className="container bg-white p-5 mx-5 my-5 rounded-lg shadow-md">
-          <h1 className="text-2xl text-center mb-2 font-semibold">Kategori Arsip</h1>
-          <p className="items-center text-center text-sm">
-            Berikut ini adalah kategori yang bisa digunakan untuk melabeli surat.
-            <div className="block">Klik "Tambah" pada kolom aksi untuk menambahkan kategori baru</div>
-          </p>
+        <div className="container bg-white p-9 mx-5 mt-5 rounded-lg shadow-md">
+          <div className="pb-4 border-b border-gray-200">
+            <h1 className="text-2xl mb-3 font-semibold">Kategori Arsip</h1>
+            <p className="text-sm">Berikut ini adalah kategori yang bisa digunakan untuk melabeli surat.</p>
+            <p className="text-sm">Klik "Tambah" pada kolom aksi untuk menambahkan kategori baru</p>
+          </div>
 
           {/* Search */}
-          <div className="flex items-center mt-5 gap-6 justify-center">
-            <label>Cari kategori:</label>
-            <TextField
-              placeholder="Ketikan nama kategori"
-              id="outlined-basic"
-              size="small"
-              variant="outlined"
-              className="w-96"
-              value={searchKategori}
-              onChange={handleChangeSearch}
-            />
-            <Button variant="contained" onClick={handleSearch}>
-              Cari
-            </Button>
+          <div className="flex items-center mt-5 gap-6 justify-between">
+            <div>
+              {/* Navigasi ke halaman Tambah Kategori */}
+              <Link to={"/kategori/tambah-kategori"}>
+                <Button variant="contained" color="success" size="small" startIcon={<AddBoxIcon />}>
+                  Tambah kategori baru
+                </Button>
+              </Link>
+            </div>
+            <div className="flex gap-3 justify-center items-center">
+              <Typography>Cari kategori:</Typography>
+              <TextField
+                placeholder="Ketikan nama kategori"
+                id="outlined-basic"
+                size="small"
+                variant="outlined"
+                className="w-96"
+                value={searchKategori}
+                onChange={handleChangeSearch}
+              />
+              <Button variant="contained" onClick={handleSearch}>
+                Cari
+              </Button>
+            </div>
           </div>
 
           <div className="mt-5">
@@ -103,14 +113,6 @@ function KategoriPage() {
           </div>
 
           {/* Button Tambah Kategori */}
-          <div className="mt-5">
-            {/* Navigasi ke halaman Tambah Kategori */}
-            <Link to={"/kategori/tambah-kategori"}>
-              <Button variant="contained" color="success" size="small" startIcon={<AddBoxIcon />}>
-                Tambah kategori baru
-              </Button>
-            </Link>
-          </div>
         </div>
       </div>
     </LoadingErrorWrapper>
