@@ -4,6 +4,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { getKategoriById, updateKategori } from "../utils/api";
 import toast from "react-hot-toast";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import LoadingErrorWrapper from "../components/LoadingError";
 
 function EditKategoriPage() {
   const { id } = useParams();
@@ -45,51 +46,50 @@ function EditKategoriPage() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
   return (
-    <div className="bg-slate-200 min-h-full flex">
-      <div className="container bg-white p-5 mx-5 my-5 rounded-lg shadow-md">
-        <h1 className="text-2xl text-center mb-2 font-semibold">Edit Kategori Surat</h1>
-        <p className="items-center text-center text-sm">Berikut ini adalah halaman untuk mengedit kategori surat.</p>
+    <LoadingErrorWrapper loading={loading} error={error}>
+      <div className="bg-slate-200 min-h-full flex">
+        <div className="container bg-white p-5 mx-5 my-5 rounded-lg shadow-md">
+          <h1 className="text-2xl text-center mb-2 font-semibold">Edit Kategori Surat</h1>
+          <p className="items-center text-center text-sm">Berikut ini adalah halaman untuk mengedit kategori surat.</p>
 
-        <form onSubmit={handleUpdate} className="mt-5 mx-7">
-          <TextField label="ID" value={id} disabled fullWidth margin="normal" size="small" />
-          <TextField
-            label="Nama Kategori"
-            value={namaKategori}
-            onChange={(e) => setNamaKategori(e.target.value)}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <TextField
-            label="Keterangan"
-            value={keterangan}
-            onChange={(e) => setKeterangan(e.target.value)}
-            fullWidth
-            margin="normal"
-            required
-          />
+          <form onSubmit={handleUpdate} className="mt-5 mx-7">
+            <TextField label="ID" value={id} disabled fullWidth margin="normal" size="small" />
+            <TextField
+              label="Nama Kategori"
+              value={namaKategori}
+              onChange={(e) => setNamaKategori(e.target.value)}
+              fullWidth
+              margin="normal"
+              required
+            />
+            <TextField
+              label="Keterangan"
+              value={keterangan}
+              onChange={(e) => setKeterangan(e.target.value)}
+              fullWidth
+              margin="normal"
+              required
+            />
 
-          <Typography align="center" mt={2}>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
-              Update
-            </Button>
-          </Typography>
-        </form>
+            <Typography align="center" mt={2}>
+              <Button type="submit" variant="contained" color="primary" fullWidth>
+                Update
+              </Button>
+            </Typography>
+          </form>
 
-        {/* Navigasi kembali */}
-        <div className="mt-14 ml-7">
-          <Link to={"/kategori"}>
-            <Button variant="contained" color="success" size="small" startIcon={<ArrowBackIcon />}>
-              Kembali
-            </Button>
-          </Link>
+          {/* Navigasi kembali */}
+          <div className="mt-14 ml-7">
+            <Link to={"/kategori"}>
+              <Button variant="contained" color="success" size="small" startIcon={<ArrowBackIcon />}>
+                Kembali
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </LoadingErrorWrapper>
   );
 }
 

@@ -28,7 +28,17 @@ function AddArsipPage() {
   }, []);
 
   const handleFileChange = (e) => {
-    setSurat({ ...surat, fileDokumen: e.target.files[0] });
+    const file = e.target.files[0];
+    // Validasi inputan upload dokumen harus format PDF
+    const allowedExtensions = /(\.pdf)$/i;
+
+    if (!allowedExtensions.exec(file.name)) {
+      toast.error("Hanya file PDF yang diperbolehkan!", { duration: 3000 });
+      e.target.value = null;
+      return;
+    }
+
+    setSurat({ ...surat, fileDokumen: file });
   };
 
   const handleSubmit = async (e) => {
@@ -38,7 +48,7 @@ function AddArsipPage() {
       console.log(`Form submitted! ${response}`);
 
       if (!response.error) {
-        toast.success("Berhasil menambahkan arsip!", { duration: 3000 });
+        toast.success("Berhasil menambahkan arsip!", { duration: 4000 });
         setSurat({
           nomorSurat: "",
           kategori: "",
@@ -56,7 +66,7 @@ function AddArsipPage() {
 
   return (
     <div className="bg-slate-200 min-h-full flex">
-      <div className="container bg-white p-5 mx-5 my-5 rounded-lg shadow-md">
+      <div className="container bg-white p-3 mx-5 my-5 rounded-lg shadow-md">
         <h1 className="text-2xl text-center mb-2 font-semibold">Tambah Arsip Surat</h1>
         <p className="items-center text-center text-sm">
           Berikut ini adalah halaman untuk menambahkan arsip surat baru.
@@ -120,7 +130,7 @@ function AddArsipPage() {
           </div>
           <div className="mb-3">
             <Typography variant="body1" mb={1}>
-              File Dokumen:
+              File Dokumen (*PDF):
             </Typography>
             <input id="fileDokumen" type="file" required onChange={handleFileChange} />
           </div>
@@ -131,7 +141,7 @@ function AddArsipPage() {
           </Typography>
         </form>
 
-        <div className="mt-20 ml-7">
+        <div className="mt-5 ml-7">
           <Link to={"/arsip"}>
             <Button variant="contained" color="success" size="small" startIcon={<ArrowBackIcon />}>
               Kembali

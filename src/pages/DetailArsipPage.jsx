@@ -1,19 +1,21 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, CircularProgress, Typography } from "@mui/material";
-import { downloadSurat, getSuratById } from "../utils/api";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { getSuratById, downloadSurat, updateFileSurat } from "../utils/api";
+import toast from "react-hot-toast";
 
 function DetailArsipPage() {
-  const { id } = useParams(); // Ambil ID dari parameter URL menggunakan useParams
+  const { id } = useParams();
   const [surat, setSurat] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     const fetchSurat = async () => {
       try {
-        const response = await getSuratById(id); // Panggil API untuk mendapatkan surat berdasarkan ID
+        const response = await getSuratById(id);
         setSurat(response);
       } catch (error) {
         setError(error);
@@ -27,13 +29,28 @@ function DetailArsipPage() {
 
   const handleDownload = async () => {
     try {
-      // Panggil fungsi downloadSurat untuk mengunduh file surat
       const downloadResponse = await downloadSurat(id);
       if (downloadResponse.error) {
         console.error("Error downloading surat:", downloadResponse);
       }
     } catch (error) {
       console.error("Error downloading surat:", error);
+    }
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleUpdateFile = async () => {
+    if (!file) return;
+
+    try {
+      await updateFileSurat(id, { fileDokumen: file });
+      toast.success("File berhasil diupdate");
+    } catch (error) {
+      console.error("Error updating file:", error);
+      toast.error("Gagal mengupdate file");
     }
   };
 
@@ -89,6 +106,12 @@ function DetailArsipPage() {
             <Button variant="contained" onClick={handleDownload}>
               Download Surat
             </Button>
+            <div style={{ marginTop: "20px" }}>
+              <input type="file" onChange={handleFileChange} />
+              <Button variant="contained" color="primary" onClick={handleUpdateFile} disabled={!file}>
+                Update File
+              </Button>
+            </div>
           </div>
         )}
 

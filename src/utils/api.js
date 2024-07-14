@@ -116,20 +116,31 @@ async function downloadSurat(id) {
       method: "get",
       url: `${BASE_URL}/surat/download/${id}`,
       responseType: "blob",
-      // timeout: 10000,
     });
 
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", `surat_${id}.pdf`);
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
+    return { error: false, code: response.status, data: response.data };
+  } catch (error) {
+    console.error("Error downloading surat:", error);
+    return { error: true, code: error.response?.status || 500 };
+  }
+}
+
+async function updateFileSurat(id, { fileDokumen }) {
+  try {
+    const formData = new FormData();
+    if (fileDokumen) {
+      formData.append("fileDokumen", fileDokumen);
+    }
+
+    const response = await axios.put(`${BASE_URL}/surat/update-file/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     return { error: false, code: response.status };
   } catch (error) {
-    console.error("Error downloading surat:", error);
+    console.error("Error updating surat:", error);
     return { error: true, code: error.response?.status || 500 };
   }
 }
@@ -145,4 +156,5 @@ export {
   addSurat,
   deleteSurat,
   downloadSurat,
+  updateFileSurat,
 };
