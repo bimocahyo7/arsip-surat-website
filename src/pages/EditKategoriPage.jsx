@@ -73,7 +73,7 @@ function EditKategoriPage() {
             />
 
             <Typography align="center" mt={2}>
-              <Button type="submit" variant="contained" color="primary" fullWidth>
+              <Button type="submit" variant="contained" color="primary" size="large">
                 Update
               </Button>
             </Typography>

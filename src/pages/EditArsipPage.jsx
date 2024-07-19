@@ -31,7 +31,7 @@ function EditArsipPage() {
 
         // Set nama file jika fileDokumen sudah ada
         if (responseSurat.fileDokumen) {
-          setNamaFile(responseSurat.fileDokumen.name);
+          setNamaFile(responseSurat.fileDokumen);
         } else {
           setNamaFile("Tidak ada file dipilih"); // Pesan jika tidak ada file
         }
@@ -70,7 +70,8 @@ function EditArsipPage() {
       const response = await updateSurat(id, surat);
       if (!response.error) {
         toast.success("Berhasil mengupdate arsip!", { duration: 4000 });
-        navigate("/arsip");
+        // Navigasi ke halaman detail setelah berhasil update datanya
+        navigate(`/arsip/detail/${id}`);
       } else {
         toast.error("Error mengupdate arsip!");
       }
@@ -158,7 +159,7 @@ function EditArsipPage() {
                   Pilih File
                 </Button>
               </label>
-              <span className="ml-2">{namaFile}</span> {/* Tampilkan nama file yang dipilih */}
+              <span className="ml-2">File saat ini: {namaFile}</span>
             </div>
           </div>
           <Typography align="center" mt={3}>
